@@ -1,0 +1,13 @@
+title: AI 协作教研工作流
+description: 从想法到素材库与书稿
+lang: zh-CN
+url: https://lianxhcn.github.io
+baseurl: /teach-bank-guide
+markdown: kramdown
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+exclude:
+  - CHANGELOG.md

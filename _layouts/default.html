@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ page.title | default: site.title | escape }}</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, "Microsoft YaHei", sans-serif; color: #203047; background: #f5f7fa; }
+    body { margin: 0; line-height: 1.85; }
+    header { background: #193955; color: white; padding: 1rem max(5vw, calc((100vw - 960px)/2)); }
+    header a { color: white; margin-right: 1.5rem; }
+    main { max-width: 960px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 12px; }
+    a { color: #1765a5; text-underline-offset: .2em; }
+    h1,h2,h3 { line-height: 1.4; margin-top: 1.7em; }
+    table { display: block; overflow-x: auto; border-collapse: collapse; }
+    th,td { border: 1px solid #d7e0e8; padding: .65rem; text-align: left; vertical-align: top; }
+    th { background: #edf3f8; }
+    pre { overflow-x: auto; padding: 1rem; background: #f0f4f8; }
+    code { font-family: Consolas, monospace; }
+    blockquote { margin-left: 0; border-left: 4px solid #3b8bba; padding: .6rem 1rem; background: #f3f8fc; }
+    footer { max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #586779; }
+    @media(max-width:700px) { main { margin: .7rem; padding: 1rem; } }
+    @media print { header,footer { display: none; } main { margin: 0; padding: 0; max-width: none; } }
+  </style>
+</head>
+<body>
+  <header><a href="{{ '/' | relative_url }}">教研工作流 · 目录</a><a href="https://github.com/lianxhcn/teach-bank-guide">GitHub 仓库</a></header>
+  <main>{{ content | replace: '.md"', '.html"' | replace: 'README.html', 'index.html' }}</main>
+  <footer>讨论稿 · 请结合正文中的验证状态与待定事项使用。</footer>
+</body>
+</html>
