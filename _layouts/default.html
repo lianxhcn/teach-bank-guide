@@ -1,31 +1,51 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{{ page.title | default: site.title | escape }}</title>
-  <style>
-    :root { color-scheme: light; font-family: system-ui, "Microsoft YaHei", sans-serif; color: #203047; background: #f5f7fa; }
-    body { margin: 0; line-height: 1.85; }
-    header { background: #193955; color: white; padding: 1rem max(5vw, calc((100vw - 960px)/2)); }
-    header a { color: white; margin-right: 1.5rem; }
-    main { max-width: 960px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 12px; }
-    a { color: #1765a5; text-underline-offset: .2em; }
-    h1,h2,h3 { line-height: 1.4; margin-top: 1.7em; }
-    table { display: block; overflow-x: auto; border-collapse: collapse; }
-    th,td { border: 1px solid #d7e0e8; padding: .65rem; text-align: left; vertical-align: top; }
-    th { background: #edf3f8; }
-    pre { overflow-x: auto; padding: 1rem; background: #f0f4f8; }
-    code { font-family: Consolas, monospace; }
-    blockquote { margin-left: 0; border-left: 4px solid #3b8bba; padding: .6rem 1rem; background: #f3f8fc; }
-    footer { max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #586779; }
-    @media(max-width:700px) { main { margin: .7rem; padding: 1rem; } }
-    @media print { header,footer { display: none; } main { margin: 0; padding: 0; max-width: none; } }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ page.title | default: site.title | escape }}</title>
+<style>
+:root{color-scheme:light;font-family:system-ui,"Microsoft YaHei",sans-serif;color:#203047;background:#f5f7fa}
+*{box-sizing:border-box}body{margin:0;line-height:1.85}html{scroll-padding-top:90px}
+header{position:sticky;top:0;z-index:10;background:#193955;color:white;padding:.8rem max(24px,calc((100vw - 1320px)/2));display:flex;gap:24px;align-items:center}
+header a{color:white}a{color:#1765a5;text-underline-offset:.2em}
+.shell{display:grid;grid-template-columns:250px minmax(0,960px);gap:28px;max-width:1320px;margin:28px auto;padding:0 24px;align-items:start}
+aside{position:sticky;top:85px;max-height:calc(100dvh - 110px);overflow:auto;background:#fff;border:1px solid #dce5ed;border-radius:12px;padding:18px}
+aside h2{font-size:1rem;margin:0 0 10px}nav ul{list-style:none;margin:0;padding:0}.chapters a{display:block;padding:9px 10px;border-radius:6px;text-decoration:none;line-height:1.6}
+.chapters a:hover{background:#edf3f8}.chapters a[aria-current="page"]{background:#e5f0fa;color:#123f65;font-weight:700;border-left:3px solid #1765a5}
+main{min-width:0;padding:28px 36px;background:white;border-radius:12px}h1,h2,h3{line-height:1.4;margin-top:1.7em}h1{margin-top:.5em}
+table{display:block;overflow-x:auto;border-collapse:collapse}th,td{border:1px solid #d7e0e8;padding:.65rem;text-align:left;vertical-align:top}th{background:#edf3f8}
+pre{overflow-x:auto;padding:1rem;background:#f0f4f8}code{font-family:Consolas,monospace}blockquote{margin-left:0;border-left:4px solid #3b8bba;padding:.6rem 1rem;background:#f3f8fc}
+.bottom-nav{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;border-top:1px solid #d7e0e8;margin-top:36px;padding-top:20px}.bottom-nav a{border:1px solid #d7e0e8;border-radius:6px;padding:8px 12px;text-decoration:none}
+footer{max-width:1320px;margin:24px auto;padding:0 24px;color:#586779}.mobile-menu{display:none}
+a:focus-visible,summary:focus-visible{outline:3px solid #d78516;outline-offset:3px}
+@media(max-width:900px){header{flex-wrap:wrap;gap:10px 22px}.shell{display:block;margin:14px auto;padding:0 12px}.shell>aside{display:none}main{padding:20px}.mobile-menu{display:block;width:100%;background:#193955}.mobile-menu summary{cursor:pointer}.mobile-menu nav{max-height:55dvh;overflow:auto;background:white;border-radius:6px;margin-top:8px;padding:8px}.mobile-menu a{color:#1765a5}}
+@media print{header,aside,.bottom-nav,footer{display:none}.shell{display:block;margin:0;padding:0}main{padding:0}}
+</style>
 </head>
 <body>
-  <header><a href="{{ '/' | relative_url }}">教研工作流 · 目录</a><a href="https://github.com/lianxhcn/teach-bank-guide">GitHub 仓库</a></header>
-  <main>{{ content | replace: '.md"', '.html"' | replace: 'README.html', 'index.html' }}</main>
-  <footer>讨论稿 · 请结合正文中的验证状态与待定事项使用。</footer>
+{% assign chapter_paths = '/|/docs/01-setup.html|/docs/02-capture.html|/docs/03-library.html|/docs/04-compose.html|/docs/05-prompts.html|/docs/06-standards.html|/docs/07-maintenance.html' | split: '|' %}
+{% assign chapter_titles = '总目录|1. 本地布局与协作边界|2. 从想法到入库|3. 四个子库及其关联|4. 从素材到书稿|5. 日常操作卡|6. 规范与待定问题|7. 同步、版本与发布' | split: '|' %}
+{% capture chapter_links %}<ul class="chapters">
+{% for path in chapter_paths %}<li><a href="{{ path | relative_url }}"{% if page.url == path or page.url == '/index.html' and path == '/' %} aria-current="page"{% endif %}>{{ chapter_titles[forloop.index0] }}</a></li>{% endfor %}
+</ul>{% endcapture %}
+<header>
+<a href="{{ '/' | relative_url }}">教研工作流 · 目录</a><a href="https://github.com/lianxhcn/teach-bank-guide">GitHub 仓库</a>
+<details class="mobile-menu"><summary>章节目录 · 点击展开</summary><nav aria-label="移动端章节目录">{{ chapter_links }}</nav></details>
+</header>
+<div class="shell">
+<aside><h2>章节目录</h2><nav aria-label="章节目录">{{ chapter_links }}</nav></aside>
+<main id="main">
+{{ content | replace: '.md"', '.html"' | replace: 'README.html', 'index.html' }}
+<nav class="bottom-nav" aria-label="章节翻页">
+{% for path in chapter_paths %}{% if page.url == path or page.url == '/index.html' and path == '/' %}
+{% unless forloop.first %}{% assign previous = forloop.index0 | minus: 1 %}<a href="{{ chapter_paths[previous] | relative_url }}">← {{ chapter_titles[previous] }}</a>{% endunless %}
+<a href="{{ '/' | relative_url }}">返回总目录</a>
+{% unless forloop.last %}{% assign next = forloop.index0 | plus: 1 %}<a href="{{ chapter_paths[next] | relative_url }}">{{ chapter_titles[next] }} →</a>{% endunless %}
+{% endif %}{% endfor %}
+</nav>
+</main>
+</div>
+<footer>讨论稿 · 请结合正文中的验证状态与待定事项使用。</footer>
 </body>
 </html>
